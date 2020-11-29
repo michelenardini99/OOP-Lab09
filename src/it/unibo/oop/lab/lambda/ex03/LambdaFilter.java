@@ -20,13 +20,13 @@ import javax.swing.JTextArea;
 /**
  * Modify this small program adding new filters.
  * Realize this exercise using as much as possible the Stream library.
- *
+ * 
  * 1) Convert to lowercase
- *
+ * 
  * 2) Count the number of chars
- *
+ * 
  * 3) Count the number of lines
- *
+ * 
  * 4) List all the words in alphabetical order
  * 
  * 5) Write the count for each word, e.g. "word word pippo" should output "pippo -> 1 word -> 2"
@@ -35,34 +35,20 @@ import javax.swing.JTextArea;
 public final class LambdaFilter extends JFrame {
 
     private static final long serialVersionUID = 1760990730218643730L;
-    /*
-     * This is a "regular expression". It is a very powerful tool for inspecting
-     * and manipulating strings. Unfortunately, we have no room in this course
-     * to introduce them - but you can read something yourself (start from
-     * https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html),
-     * and test your abilities with https://regex101.com/
-     */
-    private static final String ANY_NON_WORD = "(\\s|\\p{Punct})+";
 
     private enum Command {
-        /**
-         * Commands.
-         */
         IDENTITY("No modifications", Function.identity()),
-        TO_LOWER("Lowercase", String::toLowerCase),
-        COUNT("Count chars", s -> Integer.toString(s.length())),
-        LINES("Count lines", s -> Long.toString(s.chars().filter(e -> e == '\n').count() + 1)),
-        WORDS("Sort words in alphabetical order", s ->
-            Arrays.stream(s.split(ANY_NON_WORD))
-                .sorted()
-                .collect(Collectors.joining("\n"))),
-        WORDCOUNT("Count words", s ->
-            Arrays.stream(s.split(ANY_NON_WORD))
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-                .entrySet().stream()
-                .map(e -> e.getKey() + " -> " + e.getValue())
-                .collect(Collectors.joining("\n"))
-        );
+        TO_LOWER_CASE("To lower case",  String::toLowerCase),
+        COUNT_CHAR("Count character", s -> Integer.toString(s.length())),
+        COUNT_LINES("Count lines", s -> Integer.toString(s.split("\n").length)),
+        ALPHABETICAL_ORDER("Alphabetical order", s -> Arrays.stream(s.split("(\\s|\\p{Punct})+"))
+                                                            .sorted()
+                                                            .collect(Collectors.joining("\n"))),
+        WORDCOUNT("Count words", s -> Arrays.stream(s.split("(\\s|\\p{Punct})+"))
+            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+            .entrySet().stream()
+            .map(e -> e.getKey() + " -> " + e.getValue())
+            .collect(Collectors.joining("\n")));
 
         private final String commandName;
         private final Function<String, String> fun;

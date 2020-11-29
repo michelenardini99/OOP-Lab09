@@ -36,7 +36,7 @@ public final class TestMusicGroup {
         lz.addAlbum("II", 1969);
         lz.addAlbum(III, 1970);
         lz.addAlbum(UNTITLED, 1971);
-        lz.addSong("Dazed and Confused", Optional.of("I"), 6.5);
+        lz.addSong("Dazed and Confused", Optional.of("I"), 10.5);
         lz.addSong("I Can't Quit You Baby", Optional.of("I"), 4.6);
         lz.addSong("Whole Lotta Love", Optional.of("II"), 5.5);
         lz.addSong("Ramble On", Optional.of("II"), 4.6);
@@ -78,6 +78,7 @@ public final class TestMusicGroup {
                 "When the Levee Breaks",
                 "Whole Lotta Love" });
         final List<String> actual = lz.orderedSongNames().collect(toList());
+        System.out.println(actual);
         assertEquals(result, actual);
     }
 
@@ -120,8 +121,8 @@ public final class TestMusicGroup {
      */
     @Test
     public void testLongest() {
-        assertEquals("When the Levee Breaks", lz.longestSong().get());
-        assertEquals(UNTITLED, lz.longestAlbum().get());
+        assertEquals("Dazed and Confused", lz.longestSong().get());
+        assertEquals("I", lz.longestAlbum().get());
     }
 
 }
